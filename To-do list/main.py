@@ -1,17 +1,21 @@
-file = r"C:\Users\huber\PycharmProjects\To-do list\tasks.txt"
+file = r"C:\Users\huber\PycharmProjects\To-do list\tasks.dat"
 
 try:
     init = open(file, "x")
+    init.flush()
 except:
     pass
 
-while True:
-    data = open(file)
-    task_add = open(file, "a")
-    task_list = data.readlines()
-    current_id = len(task_list) + 1
-    tasks_edit = open(file, "w")
+data = open(file)
+task_add = open(file, "a")
+tasks_edit = open(file, "w")
+task_list = data.readlines()
+current_id = len(task_list) + 1
 
+while True:
+    task_add.flush()
+    data.flush()
+    tasks_edit.flush()
     # inp = input("To-do list:\n" + "\t" +
     #             data.read() + "\n\n"
     #                           "Options:\n" +
@@ -20,8 +24,8 @@ while True:
     #             "del - delete a task\n"
     #             "det - access details\n")
 
-    print("To-do list:\n" + "\t")
-    for t in data.readlines():
+    print("To-do list:\n\t")
+    for t in task_list:
         print(t)
 
     inp = input("Options:\n" +
@@ -31,8 +35,12 @@ while True:
                 "det - access details\n")
     match inp:
         case "a":
+            # data = open(file)
+            # task_list = data.readlines()
+            # current_id = len(task_list) + 1
             task_text = input("Write what the task is\n")
-            task_add.write(str(current_id) + "\t" + str(task_text) + "\t" + "IN PROGRESS\n")
+            # task_add = open(file, "a")
+            task_add.write(f"{str(current_id)}\t{str(task_text)}\tIN PROGRESS\n")
             print("Done!")
             pass
         case "don":
