@@ -18,7 +18,7 @@ while True:
     data.seek(0)
     print("To-do list:\n")
     print(*task_list)
-    # for some reason it adds spaces to lines????
+    # for some reason it adds spaces to lines
     inp = input("Options:\n" +
                 "a - add new task\n" +
                 "don - mark task as done\\in progress\n"
