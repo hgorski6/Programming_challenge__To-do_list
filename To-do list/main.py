@@ -1,33 +1,24 @@
-file = r"C:\Users\huber\PycharmProjects\To-do list\tasks.dat"
-
-try:
-    init = open(file, "x")
-    init.flush()
-except:
-    pass
+file = r"C:\Users\huber\PycharmProjects\To-do list\tasks.txt"
 
 data = open(file)
-task_add = open(file, "a")
-tasks_edit = open(file, "w")
+# task_add = open(file, "a")
+# tasks_edit = open(file, "w")
 task_list = data.readlines()
-current_id = len(task_list) + 1
+current_id = len(task_list)
 
 while True:
-    task_add.flush()
+
+    data = open(file)
+    # task_add = open(file, "a")
+    # tasks_edit = open(file, "w")
+    task_list = data.readlines()
+    current_id = len(task_list)
+
     data.flush()
-    tasks_edit.flush()
-    # inp = input("To-do list:\n" + "\t" +
-    #             data.read() + "\n\n"
-    #                           "Options:\n" +
-    #             "a - add new task\n" +
-    #             "don - mark task as done\\in progress\n"
-    #             "del - delete a task\n"
-    #             "det - access details\n")
-
-    print("To-do list:\n\t")
-    for t in task_list:
-        print(t)
-
+    data.seek(0)
+    print("To-do list:\n")
+    print(*task_list)
+    # for some reason it adds spaces to lines????
     inp = input("Options:\n" +
                 "a - add new task\n" +
                 "don - mark task as done\\in progress\n"
@@ -35,13 +26,15 @@ while True:
                 "det - access details\n")
     match inp:
         case "a":
-            # data = open(file)
-            # task_list = data.readlines()
-            # current_id = len(task_list) + 1
+            data = open(file)
+            task_list = data.readlines()
+            current_id = len(task_list) + 1
             task_text = input("Write what the task is\n")
-            # task_add = open(file, "a")
-            task_add.write(f"{str(current_id)}\t{str(task_text)}\tIN PROGRESS\n")
+            task_add = open(file, "a")
+            task_add.write(f"{current_id}\t{str(task_text)}\tIN PROGRESS\n")
             print("Done!")
+            task_add.seek(0)
+            data.seek(0)
             pass
         case "don":
             while True:
