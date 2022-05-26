@@ -22,8 +22,7 @@ while True:
     inp = input("Options:\n" +
                 "a - add new task\n" +
                 "don - mark task as done\\in progress\n"
-                "del - delete a task\n"
-                "det - access details\n")
+                "del - delete a task\n")
     match inp:
         case "a":
             data = open(file)
@@ -39,27 +38,49 @@ while True:
         case "don":
             while True:
                 try:
-                    index = input("Write the id of the task you want to mark as done.")
+                    data = open(file)
+                    task_list = data.readlines()
+                    tasks_edit = open(file, "w")
+                    index = input("Write the id of the task you want to mark as done.\n")
                     a_task = task_list[int(index) - 1].split("\t")
-                    if a_task[2] == "IN PROGRESS":
-                        a_task[2] = "DONE"
+                    if a_task[2] == "DONE\n":
+                        a_task[2] = "IN PROGRESS\n"
                     else:
-                        a_task[2] = "IN PROGRESS"
-                    tasks_edit.write(str(task_list))
+                        a_task[2] = "DONE\n"
+                    task_list[int(index) - 1] = "\t".join(a_task)
+                    tasks_edit.write("".join(task_list))
+                    tasks_edit.seek(0)
+                    data.seek(0)
                 except TypeError as err:
-                    print(r"{err}")
+                    print(f"{err}")
                 except IndexError as err:
-                    print(r"{err}")
+                    print(f"{err}")
+                finally:
+                    break
+            pass
         case "del":
             while True:
                 try:
-                    index = input("Write the id of the task you want to remove.")
+                    data = open(file)
+                    task_list = data.readlines()
+                    tasks_edit = open(file, "w")
+                    index = input("Write the id of the task you want to remove.\n")
                     del task_list[int(index) - 1]
-                    tasks_edit.write(str(task_list))
+                    for i in range(int(index) - 1, len(task_list)):
+                        print(f"loop iteration: {i}")
+                        task_i_move = task_list[i].split("\t")
+                        task_i_move[0] = str(i+1)
+                        task_list[i] = "\t".join(task_i_move)
+                    tasks_edit.write("".join(task_list))
+                    data.seek(0)
+                    tasks_edit.seek(0)
                 except TypeError as err:
-                    print(r"{err}")
+                    print(f"{err}")
                 except IndexError as err:
-                    print(r"{err}")
+                    print(f"{err}")
+                finally:
+                    break
+            pass
 #      case "det":
 #           pass
 # while True:
