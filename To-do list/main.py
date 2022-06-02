@@ -1,18 +1,13 @@
-file = r"C:\Users\huber\PycharmProjects\To-do list\tasks.txt"
+import os
 
-data = open(file)
-# task_add = open(file, "a")
-# tasks_edit = open(file, "w")
-task_list = data.readlines()
-current_id = len(task_list)
+script_dir = os.path.dirname(__file__)
+rel_path = r"tasks.dat"
+file = os.path.join(script_dir, rel_path)
 
 while True:
 
     data = open(file)
-    # task_add = open(file, "a")
-    # tasks_edit = open(file, "w")
     task_list = data.readlines()
-    current_id = len(task_list)
 
     data.flush()
     data.seek(0)
@@ -31,18 +26,17 @@ while True:
             task_text = input("Write what the task is\n")
             task_add = open(file, "a")
             task_add.write(f"{current_id}\t{str(task_text)}\tIN PROGRESS\n")
-            print("Done!")
             task_add.seek(0)
             data.seek(0)
             pass
         case "don":
             while True:
                 try:
+                    index = input("Write the id of the task you want to mark as done.\n")
                     data = open(file)
                     task_list = data.readlines()
-                    tasks_edit = open(file, "w")
-                    index = input("Write the id of the task you want to mark as done.\n")
                     a_task = task_list[int(index) - 1].split("\t")
+                    tasks_edit = open(file, "w")
                     if a_task[2] == "DONE\n":
                         a_task[2] = "IN PROGRESS\n"
                     else:
@@ -51,41 +45,34 @@ while True:
                     tasks_edit.write("".join(task_list))
                     tasks_edit.seek(0)
                     data.seek(0)
-                except TypeError as err:
-                    print(f"{err}")
-                except IndexError as err:
-                    print(f"{err}")
+                # except TypeError:
+                #     print("Error: the index must be an integer")
+                except IndexError:
+                    print("Error: the index is out of range")
                 finally:
                     break
             pass
         case "del":
             while True:
                 try:
+                    index = input("Write the id of the task you want to remove.\n")
                     data = open(file)
                     task_list = data.readlines()
-                    tasks_edit = open(file, "w")
-                    index = input("Write the id of the task you want to remove.\n")
                     del task_list[int(index) - 1]
+                    tasks_edit = open(file, "w")
                     for i in range(int(index) - 1, len(task_list)):
                         print(f"loop iteration: {i}")
                         task_i_move = task_list[i].split("\t")
-                        task_i_move[0] = str(i+1)
+                        task_i_move[0] = str(i + 1)
                         task_list[i] = "\t".join(task_i_move)
                     tasks_edit.write("".join(task_list))
                     data.seek(0)
                     tasks_edit.seek(0)
-                except TypeError as err:
-                    print(f"{err}")
-                except IndexError as err:
-                    print(f"{err}")
+                # except TypeError:
+                #     print("Error: the index must be an integer")
+                #     data.seek(0)
+                except IndexError:
+                    print("Error: the index is out of range")
+                    data.seek(0)
                 finally:
                     break
-            pass
-#      case "det":
-#           pass
-# while True:
-#     try:
-#         index = input("Write the id of the task you want to know more about.")
-#         int(index)
-#     except TypeError as err:
-#         print(r"{err}")
